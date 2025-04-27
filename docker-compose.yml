@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    command: ["bash", "-c", "chmod +x /app/scripts/start.sh && /app/scripts/start.sh"]
+    environment:
+      - POSTGRES_SERVER=db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=element_sim
+      - POSTGRES_PORT=5432
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/element_sim
+      - SECRET_KEY=your_secret_key_here_change_in_production
+    depends_on:
+      - db
+    restart: always
+
+  db:
+    image: postgres:15-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=element_sim
+    ports:
+      - "5432:5432"
+    restart: always
+
+volumes:
+  postgres_data:

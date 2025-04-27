@@ -1,6 +1,6 @@
 # ElementSim
 
-A FastAPI microservice simulating medieval chemistry and crafting with scientific accuracy. Combines elements through thermal, chemical, and mechanical processes based on historical understanding. Features realistic element interactions, recipe discovery, and skill-based crafting success rates.
+A FastAPI microservice simulating medieval chemistry and crafting with scientific accuracy. Combines elements through thermal, chemical, and mechanical processes based on historical understanding.
 
 ## Overview
 
@@ -13,7 +13,21 @@ ElementSim models the chemical and crafting processes of the medieval era (rough
 
 The simulation aims to be historically authentic while still providing an engaging and accessible system.
 
-## Features
+## Project Status
+
+This project is currently in early development. The basic infrastructure is set up, but most features are not yet implemented.
+
+### Current Status
+- ✅ Basic project structure established
+- ✅ Database models defined
+- ✅ Docker configuration complete
+- ✅ Alembic migrations set up
+- ⬜ API endpoints (in progress)
+- ⬜ Element interaction simulation (planned)
+- ⬜ Crafting mechanics (planned)
+- ⬜ Recipe discovery (planned)
+
+## Features (Planned)
 
 - **Element System**: Diverse materials with realistic properties and medieval classifications
 - **Process Simulation**: Thermal, chemical, and mechanical transformation processes
@@ -33,7 +47,6 @@ ElementSim/
 │   ├── models/                  # SQLAlchemy models
 │   ├── schemas/                 # Pydantic schemas
 │   ├── services/                # Business logic
-│   ├── data/                    # Seed data
 │   └── utils/                   # Utility functions
 ├── tests/                       # Test suite
 ├── alembic/                     # DB migrations
@@ -44,11 +57,26 @@ ElementSim/
 
 ### Prerequisites
 
-- Python 3.9+
-- PostgreSQL (optional, SQLite for development)
-- Docker (optional, for containerized deployment)
+- Python 3.11+
+- PostgreSQL
+- Docker and Docker Compose (for containerized deployment)
 
-### Installation
+### Running with Docker (Recommended)
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/ElementSim.git
+   cd ElementSim
+   ```
+
+2. Build and start the Docker containers:
+   ```bash
+   docker-compose up --build
+   ```
+
+The API will be available at http://localhost:8000
+
+### Local Development Setup
 
 1. Clone the repository:
    ```bash
@@ -58,8 +86,8 @@ ElementSim/
 
 2. Set up a virtual environment:
    ```bash
-   python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   python -m venv .venv
+   source .venv/bin/activate  # On Windows: .venv\Scripts\activate
    ```
 
 3. Install dependencies:
@@ -67,22 +95,25 @@ ElementSim/
    pip install -r requirements.txt
    ```
 
-4. Set up the database:
-   ```bash
-   # Using SQLite (development)
-   alembic upgrade head
-
-   # Or with PostgreSQL
-   # Update DATABASE_URL in .env file
-   # Then run: alembic upgrade head
+4. Set environment variables (create a .env file):
+   ```
+   POSTGRES_SERVER=localhost
+   POSTGRES_USER=postgres
+   POSTGRES_PASSWORD=postgres
+   POSTGRES_DB=element_sim
+   POSTGRES_PORT=5432
+   SECRET_KEY=your_secret_key_here
    ```
 
-5. Start the application:
+5. Run database migrations:
+   ```bash
+   alembic upgrade head
+   ```
+
+6. Start the application:
    ```bash
    uvicorn app.main:app --reload
    ```
-
-The API will be available at http://localhost:8000, with interactive documentation at http://localhost:8000/docs.
 
 ## Core Concepts
 
@@ -107,37 +138,13 @@ Transformative methods used to create new substances:
 
 Defined combinations of elements, processes, and conditions that produce reliable outcomes.
 
-## API Examples
-
-### Crafting an Item
-
-```bash
-curl -X POST "http://localhost:8000/api/v1/craft" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "recipe_id": 1,
-    "inventory": {"1": 2.0, "3": 1.5},
-    "skill_level": 3
-  }'
-```
-
-### Exploring Element Interactions
-
-```bash
-curl -X POST "http://localhost:8000/api/v1/simulate/interaction" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "element1_id": 2,
-    "element2_id": 5
-  }'
-```
-
 ## Future Plans
 
+- **Full API Implementation**: Complete all planned endpoints
+- **Element Interaction Engine**: Realistic simulation of chemical interactions
+- **Recipe Discovery System**: Dynamic discovery of new combinations
 - **LLM Integration**: Enhanced descriptions and dynamic recipe generation
-- **MCP Server**: Exposing as a microservice for other applications
 - **Advanced Visualization**: Visual representation of reactions and processes
-- **Historical Timeline**: Element and process discovery based on historical periods
 
 ## Contributing
 
@@ -145,4 +152,4 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE).
+This project is licensed under the MIT License - see the LICENSE file for details.
